@@ -6,15 +6,17 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="ch1.helloworld" />
+        <module name="ch4.beetl" />
         <module name="ch2.aop" />
         <module name="ch10.rest" />
-        <module name="ch1.helloworld" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="ch1.helloworld" target="1.8" />
       <module name="ch10.rest" target="1.8" />
       <module name="ch2.aop" target="1.8" />
+      <module name="ch4.beetl" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -22,6 +24,7 @@
       <module name="ch1.helloworld" options="-parameters" />
       <module name="ch10.rest" options="-parameters" />
       <module name="ch2.aop" options="-parameters" />
+      <module name="ch4.beetl" options="-parameters" />
     </option>
   </component>
 </project>

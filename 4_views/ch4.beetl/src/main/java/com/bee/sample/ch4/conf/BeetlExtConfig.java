@@ -30,6 +30,7 @@ public class BeetlExtConfig  {
 		groupTemplate.registerFunction("hi",applicationContext.getBean(SimpleFunction.class));
 		groupTemplate.registerTagFactory("myTag", new TagFactory(){
 
+			@Override
 			public Tag createTag() {
 				return  applicationContext.getBean(SimpleTag.class);
 			}
