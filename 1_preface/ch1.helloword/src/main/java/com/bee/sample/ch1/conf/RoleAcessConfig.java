@@ -19,6 +19,7 @@ import com.bee.sample.ch1.annotation.Function;
 @Aspect
 @Configuration
 public class RoleAcessConfig {
+
 	private static final Logger logger = LoggerFactory.getLogger(RoleAcessConfig.class);
 	/**
 	 * 所有使用Function的注解的方法，且在Controller注解标注的类里
@@ -39,7 +40,6 @@ public class RoleAcessConfig {
 		// 继续处理原有调用
 		Object o = pjp.proceed();
 		return o;
-
 	}
 
 	protected boolean canAccess(String functionName) {
@@ -65,7 +65,6 @@ public class RoleAcessConfig {
 			Object o = pjp.proceed();
 			System.out.println("return :" + o);
 			return o;
-
 		} catch (Throwable e) {
 			throw e;
 		}

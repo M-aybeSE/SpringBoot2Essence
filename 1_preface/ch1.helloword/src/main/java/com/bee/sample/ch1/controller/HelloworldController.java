@@ -12,11 +12,11 @@ import com.bee.sample.ch1.annotation.Function;
  */
 @Controller
 public class HelloworldController {
-	
-	
+
+	@ResponseBody
 	@RequestMapping("/sayhello.html")
 	@Function()
-	public @ResponseBody String say(String name){
-		return "hello "+name;
+	public String say(String name) {
+		return "hello " + name;
 	}
 }
