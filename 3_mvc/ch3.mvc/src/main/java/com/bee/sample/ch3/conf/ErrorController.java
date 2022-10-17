@@ -25,32 +25,33 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Controller
 public class ErrorController extends AbstractErrorController {
 
-	private static final String ERROR_PATH = "/error";
-	Log log = LogFactory.getLog(ErrorController.class);
-	
-	@Autowired
-	ObjectMapper objectMapper;
+    Log log = LogFactory.getLog(ErrorController.class);
+
+    private static final String ERROR_PATH = "/error";
+
+	@Autowired ObjectMapper objectMapper;
+
 	public ErrorController() {
 		super(new DefaultErrorAttributes());
 	}
 
 	@RequestMapping(ERROR_PATH)
 	public ModelAndView getErrorPath(HttpServletRequest request, HttpServletResponse response) {
-		Map<String, Object> model = Collections.unmodifiableMap(getErrorAttributes(
-				request, false));
-		Throwable cause =getCause(request);
-		int status =  (Integer)model.get("status");
+		Map<String, Object> model = Collections.unmodifiableMap(getErrorAttributes(request, false));
+
+		Throwable cause = getCause(request);
+
+		int status = (Integer) model.get("status");
 		//错误信息
-		String message = (String)model.get("message");
+		String message = (String) model.get("message");
 		//友好提示
 		String errorMessage = getErrorMessage(cause);
 		
-		String requestPath = (String)model.get("path");
-	
-		
+		String requestPath = (String) model.get("path");
+
 		//后台打印日志信息方方便查错
-		log.info(status+":"+message, cause);
-		log.info("requestPath"+":"+requestPath);
+		log.info(status + ":" + message, cause);
+		log.info("requestPath" + ":" + requestPath);
 		
 		//后台打印日志信息方方便查错
 		log.info(message, cause);		
@@ -62,7 +63,6 @@ public class ErrorController extends AbstractErrorController {
 			view.addObject("errorMessage", errorMessage);
 			view.addObject("cause", cause);
 			return view;
-			
 		}else{
 			Map error = new HashMap();
 			error.put("success", false);
@@ -71,8 +71,6 @@ public class ErrorController extends AbstractErrorController {
 			writeJson(response,error);
 			return null;
 		}
-		
-		
 	}
 	
 	protected boolean isJsonRequest(HttpServletRequest request){
@@ -96,12 +94,16 @@ public class ErrorController extends AbstractErrorController {
 	
 	protected String getErrorMessage(Throwable ex) {
 		/*不给前端显示详细错误*/
+/*        if (ex instanceof YourApplicationException) {
+            return "";
+        }*/
 		return "服务器错误,请联系管理员";
 	}
 	
 	protected Throwable getCause(HttpServletRequest request) {
-		Throwable error = (Throwable)request.getAttribute("javax.servlet.error.exception");
+		Throwable error = (Throwable) request.getAttribute("javax.servlet.error.exception");
 		if (error != null) {
+		    // MVC有可能会封装异常成ServletException,需要调用getCause获取真正的异常
 			while (error instanceof ServletException && error.getCause() != null) {
 				error = ((ServletException) error).getCause();
 			}

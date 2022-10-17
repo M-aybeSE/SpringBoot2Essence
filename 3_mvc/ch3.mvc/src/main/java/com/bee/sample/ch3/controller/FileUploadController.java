@@ -19,8 +19,7 @@ public class FileUploadController {
 	
 	@PostMapping("/form")
 	@ResponseBody
-	public String handleFormUpload(@RequestParam("name") String name, 
-			@RequestParam("file") MultipartFile file) throws IOException {
+	public String handleFormUpload(@RequestParam("name") String name, @RequestParam("file") MultipartFile file) throws IOException {
 		if (!file.isEmpty()) {
 			String fileName = file.getOriginalFilename();
 			InputStream ins = file.getInputStream();

@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="ch1.helloworld" />
         <module name="ch4.beetl" />
+        <module name="ch3.mvc" />
         <module name="ch2.aop" />
         <module name="ch10.rest" />
       </profile>
@@ -16,6 +17,7 @@
       <module name="ch1.helloworld" target="1.8" />
       <module name="ch10.rest" target="1.8" />
       <module name="ch2.aop" target="1.8" />
+      <module name="ch3.mvc" target="1.8" />
       <module name="ch4.beetl" target="1.8" />
     </bytecodeTargetLevel>
   </component>
@@ -24,6 +26,7 @@
       <module name="ch1.helloworld" options="-parameters" />
       <module name="ch10.rest" options="-parameters" />
       <module name="ch2.aop" options="-parameters" />
+      <module name="ch3.mvc" options="-parameters" />
       <module name="ch4.beetl" options="-parameters" />
     </option>
   </component>

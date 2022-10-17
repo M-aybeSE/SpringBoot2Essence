@@ -69,7 +69,7 @@ public class JacksonSampleController {
 	public @ResponseBody String custom() throws JsonProcessingException {
 
 		User user = new User();
-		user.setId(1l);
+		user.setId(1L);
 		user.setName("hello");
 		String str = mapper.writeValueAsString(user);
 		
@@ -79,7 +79,7 @@ public class JacksonSampleController {
 	
 
 	
-@JsonIgnoreProperties ({"id","photo"})
+    @JsonIgnoreProperties ({"id","photo"})
 	public static class SamplePojo{
 		Long id;
 		String name;
@@ -115,7 +115,7 @@ public class JacksonSampleController {
 		public Map<String, Object> getOtherProperties() {
 			return otherProperties;
 		}
-		 @JsonAnySetter
+		@JsonAnySetter
 		public void setOtherProperties(Map<String, Object> otherProperties) {
 			this.otherProperties = otherProperties;
 		}
