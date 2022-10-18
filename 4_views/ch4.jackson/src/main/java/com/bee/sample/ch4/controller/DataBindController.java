@@ -21,11 +21,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class DataBindController {
-	@Autowired
-	ObjectMapper mapper;
+
+	@Autowired ObjectMapper mapper;
 
 	@RequestMapping("/updateUsers.json")
-
 	public @ResponseBody String say(@RequestBody List<User> list) {
 		StringBuilder sb = new StringBuilder();
 		for (User user : list) {
@@ -34,10 +33,20 @@ public class DataBindController {
 		return sb.toString();
 	}
 
+	/**
+	 * List 对象中的元素并非是 User ，而是包含了一个 key 是id 和 name 的Map ，这是因为 Jackson
+	 * 并不知道要把 jsonInput 反序列化成 User 对象。在运行时刻，泛型己经被擦除了（不同于方法
+	 * 参数定义的泛型，不会被擦除〉 为了提供泛型信息， Jackson 提供了 JavaType ，用来指明集合
+	 * 类型 ，比如应用可以提供一个通用 getCollectionType:
+	 * @return
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws IOException
+	 */
 	@RequestMapping("/customize.json")
 	public @ResponseBody String customize() throws JsonParseException, JsonMappingException, IOException {
 		String jsonInput = "[{\"id\":2,\"name\":\"xiandafu\"},{\"id\":3,\"name\":\"lucy\"}]";
-		JavaType type = getCollectionType(List.class,User.class);
+		JavaType type = getCollectionType(List.class, User.class);
 		List<User> list = mapper.readValue(jsonInput, type);
 		return String.valueOf(list.size());
 	}
@@ -63,7 +72,7 @@ public class DataBindController {
 	class Department {
 		Map map = new HashMap();
 		int id ;
-		public Department(int id){
+		public Department(int id) {
 			this.id = id;
 			map.put("newAttr", 1);
 		}
@@ -77,8 +86,5 @@ public class DataBindController {
 		public void setId(int id) {
 			this.id = id;
 		}
-		
-		
 	}
-	
 }

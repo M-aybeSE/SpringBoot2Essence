@@ -7,5 +7,6 @@
     <file url="file://$PROJECT_DIR$/3_mvc/ch3.mvc/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/3_mvc/ch3.mvc/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/4_views/ch4.beetl/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/4_views/ch4.jackson/src/main/java" charset="UTF-8" />
   </component>
 </project>

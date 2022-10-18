@@ -27,7 +27,12 @@ public class BeetlExtConfig  {
 	public void config(){
 		Map<String, Object> shared = new HashMap<String, Object>();
 		shared.put("jsVersion", System.currentTimeMillis());
-		groupTemplate.registerFunction("hi",applicationContext.getBean(SimpleFunction.class));
+
+		// 共享变量
+		groupTemplate.getSharedVars().put("jsVersion", System.currentTimeMillis());
+		// <script src="/js/xxx.js?version=${jsVersion}" />
+
+		groupTemplate.registerFunction("hi", applicationContext.getBean(SimpleFunction.class));
 		groupTemplate.registerTagFactory("myTag", new TagFactory(){
 
 			@Override
@@ -37,7 +42,7 @@ public class BeetlExtConfig  {
 			
 		});
 		URL url = BeetlExtConfig.class.getResource("/templates/functions");
-		System.out.print("=================="+url);
+		System.out.print("==================" + url);
 	}
 		
 //		@Bean /*另外一种配置方法，实现BeetlTemplateCustomize*/

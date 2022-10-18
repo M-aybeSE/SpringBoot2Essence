@@ -11,6 +11,7 @@
         <module name="ch3.mvc" />
         <module name="ch2.aop" />
         <module name="ch10.rest" />
+        <module name="ch4.jackson" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -19,6 +20,7 @@
       <module name="ch2.aop" target="1.8" />
       <module name="ch3.mvc" target="1.8" />
       <module name="ch4.beetl" target="1.8" />
+      <module name="ch4.jackson" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -28,6 +30,7 @@
       <module name="ch2.aop" options="-parameters" />
       <module name="ch3.mvc" options="-parameters" />
       <module name="ch4.beetl" options="-parameters" />
+      <module name="ch4.jackson" options="-parameters" />
     </option>
   </component>
 </project>

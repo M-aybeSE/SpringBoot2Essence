@@ -21,21 +21,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Controller
 @RequestMapping("/stream")
 public class JacksonStreamController {
+
 	Log log = LogFactory.getLog(JacksonStreamController.class);
-	@Autowired
-	ObjectMapper mapper;
+
+	@Autowired ObjectMapper mapper;
 	
 	@RequestMapping("/parser.html")
 	public @ResponseBody String parser() throws JsonParseException, IOException{
 		String json = "{\"name\":\"lijz\",\"id\":10}";
 		JsonFactory f = mapper.getFactory(); 
-		String key=null,value=null;
+		String key = null, value = null;
 		JsonParser parser = f.createParser(json);
 		// {
 		JsonToken token  = parser.nextToken();
 		//"name"
 		token = parser.nextToken();
-		if(token==JsonToken.FIELD_NAME){
+		if(token == JsonToken.FIELD_NAME){
 			key = parser.getCurrentName();
 			
 		}
@@ -52,7 +53,7 @@ public class JacksonStreamController {
 	@RequestMapping("/generator.html")
 	public @ResponseBody String generator() throws JsonParseException, IOException{
 		JsonFactory f = mapper.getFactory(); 
-		//输出到stringWriter
+		// 输出到stringWriter
 		StringWriter sw = new StringWriter();
 		JsonGenerator g = f.createGenerator(sw);
 		// {
