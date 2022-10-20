@@ -29,12 +29,12 @@ import com.bee.sample.ch6.service.UserService;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
-	@Autowired
-	UserRepository userDao;
+
+	@Autowired UserRepository userDao;
 	
-	@Autowired
-	EntityManager em;
+	@Autowired EntityManager em;
 	
+	@Override
 	public void updateUser(){
 //		int id = 1;
 //		User user = em.find(User.class, 1);
@@ -45,11 +45,13 @@ public class UserServiceImpl implements UserService {
 		em.merge(user);
 	}
 	
+	@Override
 	public User findUser(int id) {
 		Optional<User> user = userDao.findById(id);
 		return user.orElse(null);
 	}
 	
+	@Override
 	public Integer addUser(User user){
 		userDao.save(user);
 		user.setName("1"+user.getName());
@@ -57,7 +59,8 @@ public class UserServiceImpl implements UserService {
 		return user.getId();
 	}
 
-	public List<User> getAllUser(int page,int size) {
+	@Override
+	public List<User> getAllUser(int page, int size) {
 		PageRequest pageable = PageRequest.of(page, size);
 		Page<User> pageObject =  userDao.findAll(pageable);
 		int totalPage = pageObject.getTotalPages();
@@ -67,12 +70,14 @@ public class UserServiceImpl implements UserService {
 		return pageObject.getContent();
 	}
 
+	@Override
 	public User getUser(String name) {
 		
 		return userDao.findByName(name);
 	}
 	
-	public User getUser(String name,Integer departmentId) {
+	@Override
+	public User getUser(String name, Integer departmentId) {
 //		getUser(departmentId);
 		return userDao.nativeQuery2(name, departmentId);
 //		return userDao.findUserByDepartment(name, departmentId);
@@ -84,33 +89,34 @@ public class UserServiceImpl implements UserService {
 		int a = 1;
 	}
 	
-	public Page<User> queryUser(Integer departmentId,Pageable page){
+	@Override
+	public Page<User> queryUser(Integer departmentId, Pageable page){
 		return userDao.queryUsers(departmentId, page);
 	}
 	
-	public Page<User> queryUser2(Integer departmentId,Pageable page){
+	@Override
+	public Page<User> queryUser2(Integer departmentId, Pageable page){
 		//构造JPQL和实际的参数
 		StringBuilder baseJpql = new StringBuilder("from User u where 1=1 ");
 		Map<String,Object> paras = new HashMap<String,Object>();
-		if(departmentId!=null){
+		if(departmentId != null){
 			baseJpql.append("and  u.department.id=:deptId");
 			paras.put("deptId", departmentId);
 		}
 		//查询满足条件的总数
-		long count = getQueryCount(baseJpql,paras);
-		if(count==0){
-			return new PageImpl(Collections.emptyList(),page,0);
+		long count = getQueryCount(baseJpql, paras);
+		if(count == 0){
+			return new PageImpl(Collections.emptyList(), page, 0);
 		}
 		//查询满足条件结果集
-		List list = getQueryResult(baseJpql,paras,page);
-		
-	
+		List list = getQueryResult(baseJpql, paras, page);
 		
 		//返回结果
-		Page ret = new PageImpl(list,page,count);
+		Page ret = new PageImpl(list, page, count);
 		return ret;
 	}
 	
+	@Override
 	public List<User> getByExample(String name) {
 		User user = new User();
 		Department dept = new Department();
@@ -126,22 +132,24 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	private List getQueryResult(StringBuilder baseJpql,Map<String,Object> paras,Pageable page){
-		Query query= em.createQuery("select u "+baseJpql.toString());
+		Query query = em.createQuery("select u " + baseJpql.toString());
 		setQueryParameter(query,paras);
 		query.setFirstResult((int)page.getOffset());
 		query.setMaxResults(page.getPageNumber());
 		List list = query.getResultList();
 		return list;
 	}
-	private Long getQueryCount(StringBuilder baseJpql,Map<String,Object> paras){
-		Query query= em.createQuery("select count(1) "+baseJpql.toString());
+
+	private Long getQueryCount(StringBuilder baseJpql, Map<String,Object> paras){
+		Query query= em.createQuery("select count(1) "+ baseJpql.toString());
 		setQueryParameter(query,paras);
 		Number number = (Number)query.getSingleResult();
 		return number.longValue();
 	}
+
 	private void setQueryParameter(Query query,Map<String,Object> paras ){
-		for(Entry<String,Object> entry:paras.entrySet()){
-			query.setParameter(entry.getKey(),entry.getValue());
+		for (Entry<String,Object> entry : paras.entrySet()) {
+			query.setParameter(entry.getKey(), entry.getValue());
 		}
 	}
 

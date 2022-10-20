@@ -14,6 +14,7 @@
         <module name="ch4.jackson" />
         <module name="ch1.helloworld" />
         <module name="ch3.mvc" />
+        <module name="ch6.jpadata" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -25,6 +26,7 @@
       <module name="ch4.jackson" target="1.8" />
       <module name="ch5.beetlsql" target="1.8" />
       <module name="ch5.jdbctemplate" target="1.8" />
+      <module name="ch6.jpadata" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -37,6 +39,7 @@
       <module name="ch4.jackson" options="-parameters" />
       <module name="ch5.beetlsql" options="-parameters" />
       <module name="ch5.jdbctemplate" options="-parameters" />
+      <module name="ch6.jpadata" options="-parameters" />
     </option>
   </component>
 </project>
