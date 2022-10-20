@@ -37,7 +37,7 @@ public class BeetlSqlTest {
 		// 数据库命名跟java命名转化规则，UnderlinedNameConversion 指数据库表和列是下划线分割
 		UnderlinedNameConversion nc = new  UnderlinedNameConversion();
 		// 最后，创建一个SQLManager,DebugInterceptor 不是必须的，但可以通过它查看sql执行情况
-		SQLManager sqlManager = new SQLManager(mysql,loader,source,nc,new Interceptor[]{new DebugInterceptor()});
+		SQLManager sqlManager = new SQLManager(mysql, loader, source, nc, new Interceptor[]{new DebugInterceptor()});
 		queryUser(sqlManager);
 	}
 	
@@ -60,7 +60,6 @@ public class BeetlSqlTest {
 	public static void findUser(SQLManager sqlManager) {
 		Integer key = 1;
 		User user = sqlManager.unique(User.class, key);
-		
 	}
 	
 	public static void updateUser(SQLManager sqlManager){
@@ -76,14 +75,12 @@ public class BeetlSqlTest {
 		user.setId(key);
 		user.setName("NewName");
 		sqlManager.updateTemplateById(user);
-		
 	}
 	
 	public static void queryUser(SQLManager sqlManager){
 		User query = new User();
 		query.setName("NewName");
 		List<User> list = sqlManager.select("user.selectSample", User.class,query);
-
 	}
 	
 	public static void queryUserByMap(SQLManager sqlManager){

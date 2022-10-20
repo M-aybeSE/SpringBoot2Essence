@@ -23,10 +23,10 @@ import com.bee.sample.ch5.entity.User;
 
 @Repository
 public class UserDao {
-	@Autowired
-	JdbcTemplate jdbcTempalte;
-	@Autowired
-	NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+	@Autowired JdbcTemplate jdbcTempalte;
+
+	@Autowired NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 	public Integer totalUserInDepartment(Long departmentId) {
 		String sql = "select count(1) from user where department_id=?";
@@ -45,12 +45,12 @@ public class UserDao {
 	public User findUserById(Long userId) {
 		String sql = "select * from user where id=?";
 		User user = jdbcTempalte.queryForObject(sql, new RowMapper<User>() {
+			@Override
 			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 				User user = new User();
 				user.setId(rs.getInt("id"));
 				user.setName(rs.getString("name"));
 				user.setDepartmentId(rs.getInt("department_id"));
-
 				return user;
 			}
 		}, 1);
@@ -78,14 +78,15 @@ public class UserDao {
 		String sql = "update user set name=:name and departmet_id=:departmentId where id = :id";
 		SqlParameterSource source = new BeanPropertySqlParameterSource(user);
 		namedParameterJdbcTemplate.update(sql, source);
-		
 	}
 	
 	public Integer insertUser(final User user) {
 		final String sql = "insert into user (name, departmet_id ) values (?,?)";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTempalte.update(new PreparedStatementCreator() {
+			@Override
 			public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+				// 指出自增主键的列名
 				PreparedStatement ps = connection.prepareStatement(sql, new String[] { "id" });
 				ps.setString(1, user.getName());
 				ps.setInt(2, user.getDepartmentId());
@@ -96,6 +97,7 @@ public class UserDao {
 	}
 
 	static class UserRowMapper implements RowMapper<User> {
+		@Override
 		public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 			User user = new User();
 			user.setId(rs.getInt("id"));
