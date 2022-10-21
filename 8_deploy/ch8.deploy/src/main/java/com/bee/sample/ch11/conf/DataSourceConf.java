@@ -10,24 +10,32 @@ import org.springframework.core.env.Environment;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
-
 public class DataSourceConf {
+
 	@Bean(name = "dataSource")
 	public DataSource devSource(Environment env) {
-		HikariDataSource  prod = getDataSource(env);
+		HikariDataSource prod = getDataSource(env);
 		prod.setMaximumPoolSize(2);
 		return prod;
 		
 	}
+
 	@Bean(name = "dataSource")
 	@Profile("test")
 	public DataSource testDatasource(Environment env) {
-		HikariDataSource  test = getDataSource(env);	
+		HikariDataSource test = getDataSource(env);
 		test.setMaximumPoolSize(10);
 		return test;
 	}
+
+	/**
+	 * 支持多种profile，也可以使用 ! 来排除特定的profile
+	 * @param env
+	 * @return
+	 */
 	@Bean(name = "dataSource")
-	@Profile("prod")
+//	@Profile("prod")
+	@Profile({"test", "!prod"})
 	public DataSource prodSource(Environment env) {
 		HikariDataSource  prod = getDataSource(env);
 		
