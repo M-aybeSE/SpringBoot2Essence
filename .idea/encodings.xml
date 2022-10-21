@@ -14,5 +14,7 @@
     <file url="file://$PROJECT_DIR$/5_dao/ch5.jdbctemplate/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/6_springdata/ch6.jpadata/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/6_springdata/ch6.jpadata/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/7_config/ch7.config/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/7_config/ch7.config/src/main/resources" charset="UTF-8" />
   </component>
 </project>

@@ -12,6 +12,7 @@
       <module fileurl="file://$PROJECT_DIR$/5_dao/ch5.beetlsql/ch5.beetlsql.iml" filepath="$PROJECT_DIR$/5_dao/ch5.beetlsql/ch5.beetlsql.iml" />
       <module fileurl="file://$PROJECT_DIR$/5_dao/ch5.jdbctemplate/ch5.jdbctemplate.iml" filepath="$PROJECT_DIR$/5_dao/ch5.jdbctemplate/ch5.jdbctemplate.iml" />
       <module fileurl="file://$PROJECT_DIR$/6_springdata/ch6.jpadata/ch6.jpadata.iml" filepath="$PROJECT_DIR$/6_springdata/ch6.jpadata/ch6.jpadata.iml" />
+      <module fileurl="file://$PROJECT_DIR$/7_config/ch7.config/ch7.config.iml" filepath="$PROJECT_DIR$/7_config/ch7.config/ch7.config.iml" />
     </modules>
   </component>
 </project>

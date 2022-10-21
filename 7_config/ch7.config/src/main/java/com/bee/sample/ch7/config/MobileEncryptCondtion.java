@@ -14,17 +14,20 @@ import com.bee.sample.ch7.config.MobileEncryptCondtion.EncryptCondition;
 @Configuration
 @Conditional(EncryptCondition.class)
 public class MobileEncryptCondtion {
+
 	@Bean
+	@Conditional(EncryptCondition.class)
 	public MobileEncryptBean mobileEncryptBean(){
 		return new MobileEncryptBean();
 	}
 	
 	static class EncryptCondition implements Condition{
 
+		@Override
 		public boolean matches(ConditionContext ctx, AnnotatedTypeMetadata metadata) {
 			Resource res = ctx.getResourceLoader().getResource("encrypt.txt");
 			Environment env = ctx.getEnvironment();
-			return res.exists()&&env.containsProperty("mobile.encrypt.enable");
+			return res.exists() && env.containsProperty("mobile.encrypt.enable");
 		}
 		
 	}

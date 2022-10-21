@@ -9,18 +9,25 @@ import org.springframework.boot.system.JavaVersion;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
+/**
+ * @author 14530
+ */
 @Configuration
-@ConditionalOnJava(range=Range.EQUAL_OR_NEWER,value=JavaVersion.EIGHT)
-public class EnvConfig implements BeanPostProcessor{
-	@Autowired private  Environment  env;
-	public int getServerPort(){
-		return env.getProperty("server.port", Integer.class);
-	}
-	
-	 public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-		 if(bean instanceof URLTestBean){
-			 System.out.println("=========== "+beanName);
-		 }
-		 return bean;
-	}
+@ConditionalOnJava(range = Range.EQUAL_OR_NEWER, value = JavaVersion.EIGHT)
+public class EnvConfig implements BeanPostProcessor {
+
+    @Autowired
+    private Environment env;
+
+    public int getServerPort() {
+        return env.getProperty("server.port", Integer.class);
+    }
+
+    @Override
+    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+        if (bean instanceof URLTestBean) {
+            System.out.println("=========== " + beanName);
+        }
+        return bean;
+    }
 }

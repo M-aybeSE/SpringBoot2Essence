@@ -12,6 +12,7 @@
         <option value="$PROJECT_DIR$/5_dao/ch5.beetlsql/pom.xml" />
         <option value="$PROJECT_DIR$/5_dao/ch5.jdbctemplate/pom.xml" />
         <option value="$PROJECT_DIR$/6_springdata/ch6.jpadata/pom.xml" />
+        <option value="$PROJECT_DIR$/7_config/ch7.config/pom.xml" />
       </list>
     </option>
   </component>
