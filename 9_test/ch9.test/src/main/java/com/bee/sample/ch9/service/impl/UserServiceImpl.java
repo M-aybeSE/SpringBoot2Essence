@@ -15,17 +15,14 @@ import com.bee.sample.ch9.service.UserService;
 public class UserServiceImpl implements UserService {
 
 	Log log = LogFactory.getLog(this.getClass());
-	@Autowired
-	CreditSystemService creditSystemService;
+
+	@Autowired CreditSystemService creditSystemService;
 	
-	@Autowired
-	UserDao userDao;
+	@Autowired UserDao userDao;
 	
 	@Override
 	public int getCredit(int userId) {
-	
 		return creditSystemService.getUserCredit(userId);
-		
 	}
 
 	@Override

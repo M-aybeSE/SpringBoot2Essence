@@ -30,25 +30,25 @@ public class UserServiceTest {
 	@MockBean
 	private CreditSystemService creditSystemService;
 
+	/**
+	 * 默认执行完会回滚，设置不回滚
+	 */
+	@Rollback(false)
 	@Test
 	public void testService() {
-		
-		
 		int userId = 10;
 		int expectedCredit = 100;
 		given(this.creditSystemService.getUserCredit(anyInt())).willReturn(expectedCredit);
-		int credit = userService.getCredit(10);
+		int credit = userService.getCredit(userId);
 		assertEquals(expectedCredit, credit);
 	}
 
 	@Test
 	public void testUpdateUser() {
-
 		User user = new User();
 		user.setId(1);
 		user.setName("ok22223343");
 		boolean ret = userService.updateUser(user);
 		assertTrue(ret);
-
 	}
 }

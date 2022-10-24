@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="ch5.beetlsql" />
         <module name="ch4.beetl" />
+        <module name="ch9.test" />
         <module name="ch2.aop" />
         <module name="ch10.rest" />
         <module name="ch5.jdbctemplate" />
@@ -31,6 +32,7 @@
       <module name="ch6.jpadata" target="1.8" />
       <module name="ch7.config" target="1.8" />
       <module name="ch8.deploy" target="1.8" />
+      <module name="ch9.test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -46,6 +48,7 @@
       <module name="ch6.jpadata" options="-parameters" />
       <module name="ch7.config" options="-parameters" />
       <module name="ch8.deploy" options="-parameters" />
+      <module name="ch9.test" options="-parameters" />
     </option>
   </component>
 </project>
