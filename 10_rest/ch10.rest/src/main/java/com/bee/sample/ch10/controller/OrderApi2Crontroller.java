@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v2/") 
 public class OrderApi2Crontroller {
 
-	@Autowired 
-	WebSimulate webSimulate;
+	@Autowired WebSimulate webSimulate;
+
 	@RequestMapping("/**")
-	public void simluateJson(HttpServletRequest request,HttpServletResponse response){
+	public void simluateJson(HttpServletRequest request, HttpServletResponse response){
 	  webSimulate.execute(request, response);
 	}
 

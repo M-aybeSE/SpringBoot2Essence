@@ -21,23 +21,24 @@ import com.bee.sample.ch10.entity.Order;
 /**
  * 模拟调用订单接口
  * @author xiandafu
- *
+ * REST -> Representational State Transfer 表现层状态转化
+ * URI (Uniform Resource Identifier) 统一资源标识符
+ * URL (Uniform Resource Locator) 统一资源定位符
  */
 @Controller
 @RequestMapping("/test") 
 public class RestClientTestCrontroller {
 
 	@Value(value = "${api.order}")
-	String base ;
+	public String base ;
 	
-	@Autowired
-	RestTemplateBuilder restTemplateBuilder;
+	@Autowired RestTemplateBuilder restTemplateBuilder;
 	
 	@GetMapping("/get/{orderId}")
 	public @ResponseBody Order testGetOrder(@PathVariable String orderId) throws Exception{
 		RestTemplate client = restTemplateBuilder.build();
-		String uri = base+"/order/{orderId}";
-//		Order order = client.getForObject(uri, Order.class,orderId);
+		String uri = base + "/order/{orderId}";
+//		Order order = client.getForObject(uri, Order.class, orderId);
 		//如果期待返回的是Order集合，参考书里的讲解如何指定泛型
 		ResponseEntity<Order> responseEntity = client.getForEntity(uri, Order.class, orderId);
 		HttpHeaders headers = responseEntity.getHeaders();
@@ -53,6 +54,7 @@ public class RestClientTestCrontroller {
 		Integer offset = 1;
 		//无参数
 		HttpEntity body = null;
+		// 防止泛型擦除
 		ParameterizedTypeReference<List<Order>> typeRef = new ParameterizedTypeReference<List<Order>>() {};
 		ResponseEntity<List<Order>> rs = client.exchange(uri, HttpMethod.GET, body, typeRef, offset);
 		List<Order> order = rs.getBody();
@@ -60,18 +62,16 @@ public class RestClientTestCrontroller {
 	
 	}
 	
-	
 	@GetMapping("/addorder")
 	public @ResponseBody String testAddOrder() throws Exception{
 		RestTemplate client = restTemplateBuilder.build();
-		String uri = base+"/order";
+		String uri = base + "/order";
 		Order order = new Order();
 		order.setName("test");
 		HttpEntity<Order> body = new HttpEntity<Order>(order);
+		// 指定请求方式为post
 		String ret = client.postForObject(uri, body, String.class);
 		return ret;
 	}
-	
-	
 	
 }

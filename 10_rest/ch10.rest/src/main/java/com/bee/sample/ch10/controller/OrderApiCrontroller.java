@@ -17,7 +17,6 @@ import com.bee.sample.ch10.entity.Order;
 @RestController
 @RequestMapping("/api/v1") 
 public class OrderApiCrontroller {
-
 	
 	@GetMapping("/order/{orderId}")
 	public Order getOrder(@PathVariable String orderId) throws Exception{
