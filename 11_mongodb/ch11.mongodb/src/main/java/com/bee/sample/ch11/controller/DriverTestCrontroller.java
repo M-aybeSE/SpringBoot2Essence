@@ -20,25 +20,27 @@ import com.mongodb.client.MongoDatabase;
 @RestController
 @RequestMapping("/driver")
 public class DriverTestCrontroller {
-	@Autowired
-	private MongoTemplate mongoTemplate;
 
-	@GetMapping("/baike/{name}")
-	public Baike findUser(@PathVariable String name) {
-		final String id = name;
-		Baike baike = mongoTemplate.execute(new DbCallback<Baike>() {
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
-			public Baike doInDB(MongoDatabase db) throws MongoException, DataAccessException {
-				MongoCollection<Document> collection = db.getCollection("baike");
-				MongoCursor<Document> cursor =collection.find(new Document("_id", id)).iterator();
-				try {
-				    while (cursor.hasNext()) {
-				        System.out.println(cursor.next().toJson());
-				    }
-				} finally {
-				    cursor.close();
-				}
-				return null;
+    @GetMapping("/baike/{name}")
+    public Baike findUser(@PathVariable String name) {
+        final String id = name;
+        Baike baike = mongoTemplate.execute(new DbCallback<Baike>() {
+
+            @Override
+            public Baike doInDB(MongoDatabase db) throws MongoException, DataAccessException {
+                MongoCollection<Document> collection = db.getCollection("baike");
+                MongoCursor<Document> cursor = collection.find(new Document("_id", id)).iterator();
+                try {
+                    while (cursor.hasNext()) {
+                        System.out.println(cursor.next().toJson());
+                    }
+                } finally {
+                    cursor.close();
+                }
+                return null;
 //				Document doc = collection.find(new Document("_id", id)).first();
 //				System.out.println(doc.toJson());
 //				Baike baike = new Baike();
@@ -50,13 +52,11 @@ public class DriverTestCrontroller {
 //				comment.setGood(docComment.getInteger("good"));
 //				baike.setComment(comment);
 //				return baike;
-			}
+            }
+        });
 
-		});
-
-		return baike;
-
-	}
+        return baike;
+    }
 
 
 }

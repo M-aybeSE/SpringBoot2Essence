@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/Spring-Boot-2.0-Samples.iml" filepath="$PROJECT_DIR$/.idea/Spring-Boot-2.0-Samples.iml" />
       <module fileurl="file://$PROJECT_DIR$/1_preface/ch1.helloword/ch1.helloworld.iml" filepath="$PROJECT_DIR$/1_preface/ch1.helloword/ch1.helloworld.iml" />
       <module fileurl="file://$PROJECT_DIR$/10_rest/ch10.rest/ch10.rest.iml" filepath="$PROJECT_DIR$/10_rest/ch10.rest/ch10.rest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/11_mongodb/ch11.mongodb/ch11.mongodb.iml" filepath="$PROJECT_DIR$/11_mongodb/ch11.mongodb/ch11.mongodb.iml" />
       <module fileurl="file://$PROJECT_DIR$/2_env/ch2.aop/ch2.aop.iml" filepath="$PROJECT_DIR$/2_env/ch2.aop/ch2.aop.iml" />
       <module fileurl="file://$PROJECT_DIR$/3_mvc/ch3.mvc/ch3.mvc.iml" filepath="$PROJECT_DIR$/3_mvc/ch3.mvc/ch3.mvc.iml" />
       <module fileurl="file://$PROJECT_DIR$/4_views/ch4.beetl/ch4.beetl.iml" filepath="$PROJECT_DIR$/4_views/ch4.beetl/ch4.beetl.iml" />
