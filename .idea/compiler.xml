@@ -9,6 +9,7 @@
         <module name="ch11.mongodb" />
         <module name="ch5.beetlsql" />
         <module name="ch5.jdbctemplate" />
+        <module name="ch12.redis" />
         <module name="ch7.config" />
         <module name="ch6.jpadata" />
         <module name="ch4.beetl" />
@@ -25,6 +26,7 @@
       <module name="ch1.helloworld" target="1.8" />
       <module name="ch10.rest" target="1.8" />
       <module name="ch11.mongodb" target="1.8" />
+      <module name="ch12.redis" target="1.8" />
       <module name="ch2.aop" target="1.8" />
       <module name="ch3.mvc" target="1.8" />
       <module name="ch4.beetl" target="1.8" />
@@ -42,6 +44,7 @@
       <module name="ch1.helloworld" options="-parameters" />
       <module name="ch10.rest" options="-parameters" />
       <module name="ch11.mongodb" options="-parameters" />
+      <module name="ch12.redis" options="-parameters" />
       <module name="ch2.aop" options="-parameters" />
       <module name="ch3.mvc" options="-parameters" />
       <module name="ch4.beetl" options="-parameters" />

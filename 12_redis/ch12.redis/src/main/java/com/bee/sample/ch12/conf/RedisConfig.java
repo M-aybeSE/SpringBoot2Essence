@@ -11,28 +11,28 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+/**
+ * 自定义序列化策略
+ */
 @Configuration
 public class RedisConfig {
+
 	@Bean("jsonRedisTemplate")
-	public RedisTemplate<Object, Object> redisTemplate(
-			RedisConnectionFactory redisConnectionFactory)
-					throws UnknownHostException {
+	public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) throws UnknownHostException {
 		RedisTemplate<Object, Object> template = new RedisTemplate<Object, Object>();
 		template.setConnectionFactory(redisConnectionFactory);
 		template.setDefaultSerializer(new GenericJackson2JsonRedisSerializer());
-		
+
 		return template;
 	}
-	
+
 	@Bean("strKeyRedisTemplate")
-	public RedisTemplate<Object, Object> strKeyRedisTemplate(
-			RedisConnectionFactory redisConnectionFactory)
-					throws UnknownHostException {
+	public RedisTemplate<Object, Object> strKeyRedisTemplate(RedisConnectionFactory redisConnectionFactory) throws UnknownHostException {
 		RedisTemplate<Object, Object> template = new RedisTemplate<Object, Object>();
 		template.setConnectionFactory(redisConnectionFactory);
 		RedisSerializer<String> stringSerializer = new StringRedisSerializer();
 		template.setKeySerializer(stringSerializer);
-		
+
 		return template;
 	}
 }
