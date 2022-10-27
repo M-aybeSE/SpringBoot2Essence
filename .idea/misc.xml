@@ -18,6 +18,7 @@
         <option value="$PROJECT_DIR$/11_mongodb/ch11.mongodb/pom.xml" />
         <option value="$PROJECT_DIR$/12_redis/ch12.redis/pom.xml" />
         <option value="$PROJECT_DIR$/13_elasticsearch/ch13.elastic/pom.xml" />
+        <option value="$PROJECT_DIR$/14_cache/ch14.cache/pom.xml" />
       </list>
     </option>
   </component>

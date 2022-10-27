@@ -12,29 +12,24 @@ import com.bee.sample.ch14.service.MenuService;
 @Controller
 public class AdminCrontroller {
 
-	
 	@Autowired
-	MenuService menuService;
+	private MenuService menuService;
 	
 	@RequestMapping("/addmenu.json") 
-	public @ResponseBody String add() throws Exception{
+	public @ResponseBody String add() throws Exception {
 		menuService.addMenu(null);
 		//模拟改变缓存
 		return "{\"success\":true}";
 	}
 	
 	@RequestMapping("/getmenu.json") 
-	public @ResponseBody Menu getMenu(Long menuId) throws Exception{
+	public @ResponseBody Menu getMenu(Long menuId) throws Exception {
 		return menuService.getMenu(menuId);
 	}
 	
 	@RequestMapping("/tree.json") 
-	public @ResponseBody MenuNode tree() throws Exception{
+	public @ResponseBody MenuNode tree() throws Exception {
 		return menuService.getMenuTree();
 	}
-	
-	
-	
-	
-	
+
 }

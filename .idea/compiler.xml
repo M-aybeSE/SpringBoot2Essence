@@ -12,6 +12,7 @@
         <module name="ch12.redis" />
         <module name="ch7.config" />
         <module name="ch6.jpadata" />
+        <module name="ch14.cache" />
         <module name="ch4.beetl" />
         <module name="ch9.test" />
         <module name="ch2.aop" />
@@ -29,6 +30,7 @@
       <module name="ch11.mongodb" target="1.8" />
       <module name="ch12.redis" target="1.8" />
       <module name="ch13.elastic" target="1.8" />
+      <module name="ch14.cache" target="1.8" />
       <module name="ch2.aop" target="1.8" />
       <module name="ch3.mvc" target="1.8" />
       <module name="ch4.beetl" target="1.8" />
@@ -48,6 +50,7 @@
       <module name="ch11.mongodb" options="-parameters" />
       <module name="ch12.redis" options="-parameters" />
       <module name="ch13.elastic" options="-parameters" />
+      <module name="ch14.cache" options="-parameters" />
       <module name="ch2.aop" options="-parameters" />
       <module name="ch3.mvc" options="-parameters" />
       <module name="ch4.beetl" options="-parameters" />

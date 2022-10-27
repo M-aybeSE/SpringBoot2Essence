@@ -30,24 +30,31 @@ import org.springframework.data.redis.serializer.RedisSerializationContext.Seria
  */
 //@Configuration
 public class CacheConfig {
+
 	// 定义一个redis 的频道，默认叫cache，用于pub/sub
 	@Value("${springext.cache.redis.topic:cache}")
 	String topicName;
 
 	@Bean
 	public TwoLevelCacheManager cacheManager(StringRedisTemplate redisTemplate) {
-	
+		// RedisCache 需要一个 RedisCacheWriter 来实现读写 Redis
 		RedisCacheWriter writer = RedisCacheWriter.lockingRedisCacheWriter(redisTemplate.getConnectionFactory());
+
+		// SerializationPair 用于Java 和 Redis 之间的序列化和反序列化，我们这里使用自带的
+		// JdkSerializationRedisSerializer，并在反序列化过程中，使用当前的 ClassLoader
 		SerializationPair pair = SerializationPair.fromSerializer(new JdkSerializationRedisSerializer(this.getClass().getClassLoader()));
+
+		// 构造一个 RedisCache 的配置，比如是否使用前缀，比如key 和 Value 的序列化机制
 		RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig().serializeValuesWith(pair);
-		TwoLevelCacheManager cacheManager = new TwoLevelCacheManager(redisTemplate,writer,config);
+
+		// 创建 CacheManager ，并返回 Spring 容器
+		TwoLevelCacheManager cacheManager = new TwoLevelCacheManager(redisTemplate, writer, config);
 		return cacheManager;
 	}
 
-	// Redis message，参考Redis一章
+	// Redis message，参考Redis一章   缓存同步
 	@Bean
-	RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory,
-			MessageListenerAdapter listenerAdapter) {
+	RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory, MessageListenerAdapter listenerAdapter) {
 
 		RedisMessageListenerContainer container = new RedisMessageListenerContainer();
 		container.setConnectionFactory(connectionFactory);
@@ -59,11 +66,12 @@ public class CacheConfig {
 	MessageListenerAdapter listenerAdapter(final TwoLevelCacheManager cacheManager) {
 		return new MessageListenerAdapter(new MessageListener() {
 
+			@Override
 			public void onMessage(Message message, byte[] pattern) {
 				byte[] bs = message.getChannel();
-				
+
 				try {
-					// Sub 一个消息，通知缓存管理器
+					// Sub 一个消息，通知缓存管理器，这里的type就是Cache的名字
 					String type = new String(bs, "UTF-8");
 					String cacheName = new String(message.getBody(),"UTF-8");
 					cacheManager.receiver(cacheName);
@@ -71,35 +79,38 @@ public class CacheConfig {
 					e.printStackTrace();
 					// 不可能出错，忽略
 				}
-
 			}
-
 		});
 	}
 
+	// 二级缓存
 	class TwoLevelCacheManager extends RedisCacheManager {
+
 		RedisTemplate redisTemplate;
-		public TwoLevelCacheManager(RedisTemplate redisTemplate,RedisCacheWriter cacheWriter, RedisCacheConfiguration defaultCacheConfiguration) {
+
+		public TwoLevelCacheManager(RedisTemplate redisTemplate, RedisCacheWriter cacheWriter, RedisCacheConfiguration defaultCacheConfiguration) {
 			super(cacheWriter,defaultCacheConfiguration);
 			this.redisTemplate = redisTemplate;
 		}
+
 		//使用RedisAndLocalCache代替Spring Boot自带的RedisCache
 		@Override
 		protected Cache decorateCache(Cache cache) {
 			return new RedisAndLocalCache(this, (RedisCache) cache);
 		}
+
 		//通过其他分布式节点，缓存改变
 		public void publishMessage(String cacheName) {
 			this.redisTemplate.convertAndSend(topicName, cacheName);
 		}
+
 		// 接受一个消息清空本地缓存
 		public void receiver(String name) {
 			RedisAndLocalCache cache = ((RedisAndLocalCache) this.getCache(name));
-			if(cache!=null){
+			if(cache != null){
 				cache.clearLocal();
 			}
 		}
-
 	}
 
 	class RedisAndLocalCache implements Cache {
@@ -134,15 +145,12 @@ public class CacheConfig {
 				if (wrapper != null) {
 					local.put(key, wrapper);
 				}
-				
 				return wrapper;
 			}
-
 		}
 
 		@Override
 		public <T> T get(Object key, Class<T> type) {
-
 			return redisCache.get(key, type);
 		}
 
@@ -156,7 +164,6 @@ public class CacheConfig {
 			System.out.println(value.getClass().getClassLoader());
 			redisCache.put(key, value);
 			clearOtherJVM();
-
 		}
 
 		@Override
@@ -164,20 +171,17 @@ public class CacheConfig {
 			ValueWrapper v = redisCache.putIfAbsent(key, value);
 			clearOtherJVM();
 			return v;
-
 		}
 
 		@Override
 		public void evict(Object key) {
 			redisCache.evict(key);
 			clearOtherJVM();
-
 		}
 
 		@Override
 		public void clear() {
 			redisCache.clear();
-
 		}
 
 		public void clearLocal() {
@@ -187,8 +191,6 @@ public class CacheConfig {
 		protected void clearOtherJVM() {
 			cacheManager.publishMessage(redisCache.getName());
 		}
-
-
 
 	}
 }

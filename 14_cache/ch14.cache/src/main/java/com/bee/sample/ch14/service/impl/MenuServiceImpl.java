@@ -14,11 +14,13 @@ import com.bee.sample.ch14.service.MenuService;
 public class MenuServiceImpl implements MenuService {
 	Log log = LogFactory.getLog(this.getClass());
 
-	@CacheEvict (cacheNames ={ "menu","menuTree"},allEntries=true)
+	@Override
+	@CacheEvict(cacheNames ={"menu", "menuTree"}, allEntries=true)
 	public void addMenu(Menu menu) {
 		
 	}
 
+	@Override
 	@Cacheable(cacheNames="menu")
 	public Menu getMenu(Long id) {
 		log.info("call service getMenu " + id);
@@ -27,26 +29,27 @@ public class MenuServiceImpl implements MenuService {
 		menu.setCode("test");
 		menu.setId(id);
 		menu.setName("菜单" + id);
-		menu.setParentId(1l);
+		menu.setParentId(1L);
 
 		return menu;
 	}
 
+	@Override
 	@Cacheable("menuTree")
 	public MenuNode getMenuTree() {
 
 		log.info("call menu tree ");
 		Menu root = new Menu();
 		root.setCode("root");
-		root.setId(1l);
+		root.setId(1L);
 		root.setName("系统管理");
 		root.setParentId(null);
 
 		Menu menu = new Menu();
 		menu.setCode("menu");
-		menu.setId(1l);
+		menu.setId(1L);
 		menu.setName("菜单管理");
-		menu.setParentId(1l);
+		menu.setParentId(1L);
 
 		MenuNode tree = new MenuNode();
 		tree.setMenu(root);
@@ -58,9 +61,5 @@ public class MenuServiceImpl implements MenuService {
 		tree.getChildren().add(menuTree);
 
 		return tree;
-
 	}
-	
-
-
 }
