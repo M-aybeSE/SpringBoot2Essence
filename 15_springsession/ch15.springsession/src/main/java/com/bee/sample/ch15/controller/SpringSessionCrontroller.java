@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class SpringSessionCrontroller {
+
 	@Autowired
-	RedisTemplate redisTemplate;
+	private RedisTemplate redisTemplate;
+
 	Log log = LogFactory.getLog(SpringSessionCrontroller.class);
 	
 	@RequestMapping("/putsession.html") 
-	public @ResponseBody String putSession(HttpServletRequest request){
+	public @ResponseBody String putSession(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		log.info(session.getClass());
 		log.info(session.getId());
@@ -29,12 +31,11 @@ public class SpringSessionCrontroller {
 	}
 	
 	@RequestMapping("/getsession.html") 
-	public @ResponseBody String getSession(HttpServletRequest request){
+	public @ResponseBody String getSession(HttpServletRequest request) {
 		log.info(request.getRemoteAddr());
 		HttpSession session = request.getSession();
 		String user = (String)session.getAttribute("user");
 		return "user="+user;
 	}
-	
 	
 }
