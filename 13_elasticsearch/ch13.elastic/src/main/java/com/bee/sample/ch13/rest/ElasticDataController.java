@@ -18,11 +18,11 @@ import com.bee.sample.ch13.entity.BookEntity;
 public class ElasticDataController {
 
 	@Autowired
-	BookDao dao; 
+	private BookDao dao;
 
-	
 	@RequestMapping("/springdata/book/{id}")
-	public BookEntity getLogById(@PathVariable String id)  {
+	public BookEntity getLogById(@PathVariable String id) {
+		// 测试内置的findById
 		Optional<BookEntity> opt = dao.findById(id);
 		BookEntity book = opt.get();
 		return book;
@@ -30,17 +30,17 @@ public class ElasticDataController {
 	
 	@RequestMapping("/springdata/search/{key}")
 	public List<BookEntity> search(@PathVariable String key)  {
-		
+		// 测试全文检索
 		List<BookEntity> list = dao.getByMessage(key);
 		return list;
 	}
 	
 	
 	@RequestMapping("/springdata/search/{key}/{page}")
-	public List<BookEntity>  search(@PathVariable int page,@PathVariable String key)  {
+	public List<BookEntity> search(@PathVariable int page, @PathVariable String key)  {
 		int numberOfPage = 5;
-		PageRequest request  =PageRequest.of(page, numberOfPage);
-		Page<BookEntity> pages = dao.getByMessage(key,request);
+		PageRequest request = PageRequest.of(page, numberOfPage);
+		Page<BookEntity> pages = dao.getByMessage(key, request);
 		long total = pages.getTotalElements();
 		long totalPage = pages.getTotalPages();
 		List<BookEntity> list = pages.getContent();

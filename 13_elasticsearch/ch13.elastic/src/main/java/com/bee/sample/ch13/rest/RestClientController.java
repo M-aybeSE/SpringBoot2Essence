@@ -23,12 +23,14 @@ public class RestClientController {
 		RestTemplate template = new RestTemplate();
 		Map<String,Object> paras = new HashMap<String,Object>();
 		paras.put("id", id);
-		String str = template.getForObject("http://127.0.0.1:9200/product/book/{id}", String.class,paras);
+		// 得到相应的JSON
+		String str = template.getForObject("http://127.0.0.1:9200/product/book/{id}", String.class, paras);
 		ObjectMapper mapper = new ObjectMapper();
 		JsonFactory factory = mapper.getFactory();
 		JsonParser parser = factory.createParser(str);
 		JsonNode root = mapper.readTree(parser);
 		JsonNode sourceNode = root.get("_source");
+		// 将source字段的文档部分映射到Book对象
 		book  = mapper.convertValue(sourceNode, Book.class);
 		return book.getMessage();
 

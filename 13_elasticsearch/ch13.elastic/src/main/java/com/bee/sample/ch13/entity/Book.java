@@ -8,7 +8,6 @@ public class Book {
 	Date postDate;
 	String type ;
 
-	
 	public String getName() {
 		return name;
 	}
@@ -25,7 +24,6 @@ public class Book {
 		this.message = message;
 	}
 
-
 	public Date getPostDate() {
 		return postDate;
 	}
@@ -41,5 +39,5 @@ public class Book {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
+
 }

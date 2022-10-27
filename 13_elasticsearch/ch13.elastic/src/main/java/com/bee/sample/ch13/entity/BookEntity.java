@@ -4,7 +4,7 @@ import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
-@Document(indexName="product" ,type="book")
+@Document(indexName="product", type="book")
 public class BookEntity {
 	@Id
 	String id;
