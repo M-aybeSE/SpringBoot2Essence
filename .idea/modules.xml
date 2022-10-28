@@ -11,6 +11,7 @@
       <module fileurl="file://$PROJECT_DIR$/14_cache/ch14.cache/ch14.cache.iml" filepath="$PROJECT_DIR$/14_cache/ch14.cache/ch14.cache.iml" />
       <module fileurl="file://$PROJECT_DIR$/15_springsession/ch15.springsession/ch15.springsession.iml" filepath="$PROJECT_DIR$/15_springsession/ch15.springsession/ch15.springsession.iml" />
       <module fileurl="file://$PROJECT_DIR$/16_zookeeper/ch16.zookeeper/ch16.zookeeper.iml" filepath="$PROJECT_DIR$/16_zookeeper/ch16.zookeeper/ch16.zookeeper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/17_monitor/ch17.monitor/ch17.monitor.iml" filepath="$PROJECT_DIR$/17_monitor/ch17.monitor/ch17.monitor.iml" />
       <module fileurl="file://$PROJECT_DIR$/2_env/ch2.aop/ch2.aop.iml" filepath="$PROJECT_DIR$/2_env/ch2.aop/ch2.aop.iml" />
       <module fileurl="file://$PROJECT_DIR$/3_mvc/ch3.mvc/ch3.mvc.iml" filepath="$PROJECT_DIR$/3_mvc/ch3.mvc/ch3.mvc.iml" />
       <module fileurl="file://$PROJECT_DIR$/4_views/ch4.beetl/ch4.beetl.iml" filepath="$PROJECT_DIR$/4_views/ch4.beetl/ch4.beetl.iml" />

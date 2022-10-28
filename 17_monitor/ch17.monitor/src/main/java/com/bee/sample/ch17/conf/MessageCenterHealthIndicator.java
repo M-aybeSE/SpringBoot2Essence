@@ -13,9 +13,9 @@ public class MessageCenterHealthIndicator implements HealthIndicator {
 	@Override
 	public Health health() {
 		
-		int errorCode = check(); // 
+		int errorCode = check();
 		if (errorCode != 0) {
-			return Health.down().withDetail("Message", "error "+errorCode).build();
+			return Health.down().withDetail("Message", "error " + errorCode).build();
 		}
 		return Health.up().build();
 	}

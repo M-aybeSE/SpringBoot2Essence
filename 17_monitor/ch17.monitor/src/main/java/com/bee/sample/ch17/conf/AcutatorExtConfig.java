@@ -17,6 +17,7 @@ import com.zaxxer.hikari.HikariDataSource;
  */
 @Configuration
 public class AcutatorExtConfig {
+
 	@ConditionalOnMissingBean(HttpTraceRepository.class)
 	@Bean
 	public InMemoryHttpTraceRepository traceRepository() {
@@ -32,7 +33,5 @@ public class AcutatorExtConfig {
 	public HikariCPEndpoint testDataEndpoint(DataSource ds) {
 		return new HikariCPEndpoint((HikariDataSource)ds);
 	}
-	
-	
-	
+
 }

@@ -23,7 +23,7 @@ public class TestCrontroller {
 	
 	@RequestMapping("/testsleep.html") 
 	public @ResponseBody String sleepTest() throws Exception{
-		Thread.currentThread().sleep(1000*1000);
+		Thread.sleep(1000*1000);
 		return  "";
 	}
 	
