@@ -20,6 +20,7 @@
         <option value="$PROJECT_DIR$/13_elasticsearch/ch13.elastic/pom.xml" />
         <option value="$PROJECT_DIR$/14_cache/ch14.cache/pom.xml" />
         <option value="$PROJECT_DIR$/15_springsession/ch15.springsession/pom.xml" />
+        <option value="$PROJECT_DIR$/16_zookeeper/ch16.zookeeper/pom.xml" />
       </list>
     </option>
   </component>

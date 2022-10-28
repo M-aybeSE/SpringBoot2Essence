@@ -13,6 +13,7 @@
         <module name="ch7.config" />
         <module name="ch6.jpadata" />
         <module name="ch14.cache" />
+        <module name="ch16.zookeeper" />
         <module name="ch4.beetl" />
         <module name="ch9.test" />
         <module name="ch2.aop" />
@@ -33,6 +34,7 @@
       <module name="ch13.elastic" target="1.8" />
       <module name="ch14.cache" target="1.8" />
       <module name="ch15.springsession" target="1.8" />
+      <module name="ch16.zookeeper" target="1.8" />
       <module name="ch2.aop" target="1.8" />
       <module name="ch3.mvc" target="1.8" />
       <module name="ch4.beetl" target="1.8" />
@@ -54,6 +56,7 @@
       <module name="ch13.elastic" options="-parameters" />
       <module name="ch14.cache" options="-parameters" />
       <module name="ch15.springsession" options="-parameters" />
+      <module name="ch16.zookeeper" options="-parameters" />
       <module name="ch2.aop" options="-parameters" />
       <module name="ch3.mvc" options="-parameters" />
       <module name="ch4.beetl" options="-parameters" />

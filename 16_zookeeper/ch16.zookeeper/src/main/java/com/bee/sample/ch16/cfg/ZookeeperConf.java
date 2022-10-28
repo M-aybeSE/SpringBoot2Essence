@@ -13,6 +13,8 @@ import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.framework.api.CuratorEvent;
 import org.apache.curator.framework.api.CuratorEventType;
 import org.apache.curator.framework.api.CuratorListener;
+import org.apache.curator.framework.recipes.leader.LeaderSelector;
+import org.apache.curator.framework.recipes.leader.LeaderSelectorListenerAdapter;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.curator.x.discovery.ServiceDiscovery;
 import org.apache.curator.x.discovery.ServiceDiscoveryBuilder;
@@ -27,99 +29,112 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ZookeeperConf {
-	@Value("${zk.url}")
-	private String zkUrl;
 
-	Log log = LogFactory.getLog(ZookeeperConf.class);
+    @Value("${zk.url}")
+    private String zkUrl;
 
-	private boolean isLeader = false;
+    Log log = LogFactory.getLog(ZookeeperConf.class);
 
-	@Bean
-	public CuratorFramework getCuratorFramework() throws Exception {
-		RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
-		CuratorFramework client = CuratorFrameworkFactory.newClient(zkUrl, retryPolicy);
-		client.getCuratorListenable().addListener(new CuratorListener() {
-			public void eventReceived(CuratorFramework client, CuratorEvent event) throws Exception {
-				CuratorEventType type = event.getType();
-				if (type == CuratorEventType.WATCHED) {
-					WatchedEvent we = event.getWatchedEvent();
-					EventType et = we.getType();
-					if(we.getPath()!=null) {
-						log.info(et + ":" + we.getPath());
-						client.checkExists().watched().forPath(we.getPath());
-					}
-					
-				}
-			}
+    private boolean isLeader = false;
 
-		});
-		//
-		// LeaderSelectorListenerAdapter listener = new
-		// LeaderSelectorListenerAdapter() {
-		// public void takeLeadership(CuratorFramework client) throws Exception
-		// {
-		// log.info("get leadership");
-		// isLeader = true;
-		// //或者进行其他操作
-		// }
-		// };
-		//
-		// LeaderSelector selector = new LeaderSelector(client, "/schedule",
-		// listener);
-		// selector.autoRequeue();
-		// selector.start();
+    @Bean
+    public CuratorFramework getCuratorFramework() throws Exception {
+        // 重连策略
+        RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
+        CuratorFramework client = CuratorFrameworkFactory.newClient(zkUrl, retryPolicy);
 
-		client.start();
+        client.getCuratorListenable().addListener(new CuratorListener() {
+            @Override
+            public void eventReceived(CuratorFramework client, CuratorEvent event) throws Exception {
+                CuratorEventType type = event.getType();
+                if (type == CuratorEventType.WATCHED) {
+                    WatchedEvent we = event.getWatchedEvent();
+                    EventType et = we.getType();
+                    if (we.getPath() != null) {
+                        log.info(et + ":" + we.getPath());
+                        client.checkExists().watched().forPath(we.getPath());
+                    }
 
-		registerSerivce(client);
-		ServiceInstance<Map> service = findService(client, "book");
-		return client;
+                }
+            }
 
-	}
+        });
 
-	protected void registerSerivce(CuratorFramework client) throws Exception {
+        // 选领导
+        // 构建一个监听器
+        LeaderSelectorListenerAdapter listener = new
+                LeaderSelectorListenerAdapter() {
+                    @Override
+                    public void takeLeadership(CuratorFramework client) throws Exception {
+                        log.info("get leadership");
+                        isLeader = true;
+                        //或者进行其他操作
 
-		// 构造一个服务描述
-		ServiceInstanceBuilder<Map> service = ServiceInstance.builder();
-		service.address("192.168.1.100");
-		service.port(8080);
-		service.name("book");
-		Map config = new HashMap();
-		config.put("url", "/api/v3/book");
-		service.payload(config);
+                        // 领导节点，方法结束后退出领导。zk会再次重新选择领导
+                    }
+                };
 
-		ServiceInstance<Map> instance = service.build();
+        LeaderSelector selector = new LeaderSelector(client, "/schedule", listener);
+        selector.autoRequeue();
+        selector.start();
 
-		ServiceDiscovery<Map> serviceDiscovery = ServiceDiscoveryBuilder.builder(Map.class).client(client)
-				.serializer(new JsonInstanceSerializer<Map>(Map.class)).basePath("/service").build();
-		// 服务注册
-		serviceDiscovery.registerService(instance);
 
-		serviceDiscovery.start();
+        client.start();
 
-	}
+        registerSerivce(client);
+        ServiceInstance<Map> service = findService(client, "book");
+        return client;
 
-	protected ServiceInstance<Map> findService(CuratorFramework client, String serviceName) throws Exception {
+    }
 
-		ServiceDiscovery<Map> serviceDiscovery = ServiceDiscoveryBuilder.builder(Map.class).client(client)
-				.serializer(new JsonInstanceSerializer<Map>(Map.class)).basePath("/service").build();
+    // 注册服务
+    protected void registerSerivce(CuratorFramework client) throws Exception {
 
-		serviceDiscovery.start();
+        // 构造一个服务描述
+        ServiceInstanceBuilder<Map> service = ServiceInstance.builder();
+        service.address("192.168.1.100");
+        service.port(8080);
+        service.name("book");
+        Map config = new HashMap();
+        config.put("url", "/api/v3/book");
+        service.payload(config);
 
-		Collection<ServiceInstance<Map>> all = serviceDiscovery.queryForInstances(serviceName);
-		if (all.size() == 0) {
-			return null;
-		} else {
-			// 取第一个服务
-			ServiceInstance<Map> service = new ArrayList<ServiceInstance<Map>>(all).get(0);
-			System.out.println(service.getAddress());
-			System.out.println(service.getPayload());
-			return service;
+        ServiceInstance<Map> instance = service.build();
 
-		}
+        ServiceDiscovery<Map> serviceDiscovery = ServiceDiscoveryBuilder.builder(Map.class).client(client)
+                .serializer(new JsonInstanceSerializer<Map>(Map.class)).basePath("/service").build();
+        // 服务注册
+        serviceDiscovery.registerService(instance);
 
-	}
+        serviceDiscovery.start();
+    }
 
-	
+    /**
+     * 获取服务
+     *
+     * @param client
+     * @param serviceName
+     * @return
+     * @throws Exception
+     */
+    protected ServiceInstance<Map> findService(CuratorFramework client, String serviceName) throws Exception {
+
+        ServiceDiscovery<Map> serviceDiscovery = ServiceDiscoveryBuilder.builder(Map.class).client(client)
+                .serializer(new JsonInstanceSerializer<Map>(Map.class)).basePath("/service").build();
+
+        serviceDiscovery.start();
+
+        // 获取当前所有服务
+        Collection<ServiceInstance<Map>> all = serviceDiscovery.queryForInstances(serviceName);
+        if (all.size() == 0) {
+            return null;
+        } else {
+            // 取第一个服务
+            ServiceInstance<Map> service = new ArrayList<ServiceInstance<Map>>(all).get(0);
+            System.out.println(service.getAddress());
+            System.out.println(service.getPayload());
+            return service;
+        }
+    }
 
 }
